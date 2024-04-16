@@ -92,10 +92,15 @@ const timelines = [
 
   <main bg-neutral-100 h-full>
     <ul>
-      <li v-for="timeline in timelines" :key="timeline.name" :class="timeline.bg" relative col-start-2 col-end--1 class="grid-timelines" of-auto p-24 pr-0>
+      <li v-for="timeline in timelines" :key="timeline.name" :class="timeline.bg" relative col-start-2 col-end--1 rounded-8 class="grid-timelines" of-auto p-24 pr-0 ml-96>
+        <div grid="~ cols-[subgrid] rows-1" style="grid-column: 1 / -1">
+          <div v-for="year in Array.from({ length: 8 }, (_, i) => i + 2017)" :key="year" text-14 col-span-4>
+            {{ year }}
+          </div>
+        </div>
         <div
           v-for="(block, i) in timeline.blocks" :key="block.name" flex="~ col gap-2" mt-16 :style="{
-            '--quarter': block.items[0].quarter, '--year': block.items[0].year,
+            '--block-quarter': block.items[0].quarter, '--block-year': block.items[0].year,
           }"
         >
           <span label text-blue text-10>{{ block.name }}</span>
@@ -106,19 +111,6 @@ const timelines = [
             </div>
           </div>
         </div>
-        <!-- <h3 text-18 flex="~ gap-12 items-center" :class="timeline.text" absolute bottom-24 left-24>
-          <div :class="timeline.icon" />
-          {{ timeline.name }}
-        </h3> -->
-        <!-- <div v-for="(block, i) in timeline.blocks" :key="block.name" flex="~ col gap-2" mt-16 :style="{ '--quarter': block.items[0].quarter, '--year': block.items[0].year }">
-          <span label text-blue text-10>{{ block.name }}</span>
-          <div rounded-l-6 p-16 :class="`${timeline.blocksBg} ${timeline.blocksText}`" flex="~ gap-12 items-center" class="research-grid">
-            <div v-for="item in block.items" :key="item.name" :style="{ '--quarter': item.quarter, '--year': item.year }" flex="~ gap-8 items-center" text-14>
-              <div :class="item.icon" text="12 op-80" />
-              {{ item.name }}
-            </div>
-          </div>
-        </div> -->
       </li>
     </ul>
   </main>
@@ -144,8 +136,8 @@ const timelines = [
 
   > * {
     --column-start: calc(
-      (var(--year) - var(--first-year)) * var(--quarter-columns) +
-        var(--quarter)
+      (var(--block-year) - var(--first-year)) * var(--quarter-columns) +
+        var(--block-quarter)
     );
     grid-column: calc(var(--column-start)) / -1;
     white-space: nowrap;
@@ -153,59 +145,25 @@ const timelines = [
 }
 
 .block-grid {
-  --year-columns: calc(var(--current-year) - var(--year) + 1);
+  --year-columns: calc((var(--current-year) - var(--year) + 1));
   --cols: calc(var(--year-columns) * var(--quarter-columns));
   display: grid;
   grid-template-columns: 164px repeat(var(--cols), var(--quarter-columns-width));
   gap: 16px;
 
   > * {
+    /* --column-start: calc(
+      (
+        (var(--year) - var(--first-year)) * var(--quarter-columns) +
+          var(--quarter) - var(--column-start)
+      )
+    ); */
     --column-start: calc(
-      (var(--year) - var(--first-year)) * var(--quarter-columns) +
+      ((var(--year) - var(--first-year)) * var(--quarter-columns)) +
         var(--quarter)
     );
-    grid-column: calc(var(--column-start));
+    grid-column: var(--column-start);
     white-space: nowrap;
   }
 }
-
-/* .grid-timelines {
-  display: grid;
-  --year: 2017;
-  --research-columns: calc(var(--current-year) - var(--year) + 1) * 4;
-  grid-template-columns: 171px repeat(
-      var(--research-columns),
-      var(--quarter-columns-width)
-    );
-
-  > * {
-    --column-start: calc(
-      (var(--year) - var(--first-year)) * 4 + var(--quarter)
-    );
-    grid-column: calc(-1 * var(--column-start)) / -1;
-    white-space: nowrap;
-  }
-}
-
-.subgrid {
-  display: grid;
-  grid-template-rows: subgrid;
-}
-
-.research-grid {
-  --start: 2017;
-  --quarter: 1;
-  --research-columns: calc(var(--current-year) - var(--start) + 1) * 4;
-  display: grid;
-  grid-template-columns: repeat(
-    var(--research-columns),
-    var(--quarter-columns-width)
-  );
-
-  > * {
-    --column-start: calc((var(--year) - var(--start)) * 4 + var(--quarter));
-    grid-column-start: var(--column-start);
-    white-space: nowrap;
-  }
-} */
 </style>
