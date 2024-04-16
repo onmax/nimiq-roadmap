@@ -1,0 +1,52 @@
+{
+  "name": "nimiq-vue-template",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build --force",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@nimiq/core-web": "2.0.0-alpha.20.3",
+    "@unocss/preset-rem-to-px": "0.59.0-beta.1",
+    "@unocss/reset": "0.59.0-beta.1",
+    "@vueuse/core": "^10.9.0",
+    "nimiq-css": "^0.0.59",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.12.1",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.4",
+    "@unocss/eslint-plugin": "^0.58.9",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/tsconfig": "^0.5.1",
+    "eslint": "9.0.0-rc.0",
+    "eslint-plugin-format": "^0.1.0",
+    "lint-staged": "^15.2.2",
+    "npm-run-all2": "^6.1.2",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "~5.4.3",
+    "unocss": "0.59.0-beta.1",
+    "vite": "^5.2.8",
+    "vite-plugin-checker": "^0.6.4",
+    "vite-plugin-top-level-await": "^1.4.1",
+    "vite-plugin-vue-devtools": "^7.0.25",
+    "vite-plugin-wasm": "^3.3.0",
+    "vue-tsc": "^2.0.10"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
