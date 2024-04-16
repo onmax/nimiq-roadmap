@@ -10,7 +10,7 @@ import topLevelAwait from 'vite-plugin-top-level-await'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'nimiq-roadmap',
+  base: '/nimiq-roadmap',
   plugins: [
     vue(),
     VueDevTools(),
@@ -23,8 +23,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  },
-  optimizeDeps: {
-    exclude: ['@nimiq/core-web'],
   },
 })
