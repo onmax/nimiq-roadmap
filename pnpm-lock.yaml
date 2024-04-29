@@ -15,8 +15,8 @@ dependencies:
     specifier: ^10.9.0
     version: 10.9.0(vue@3.4.21)
   nimiq-css:
-    specifier: ^0.0.59
-    version: 0.0.59(typescript@5.4.3)(unocss@0.59.0-beta.1)(vite@5.2.8)
+    specifier: ^0.0.85
+    version: 0.0.85(typescript@5.4.3)(unocss@0.59.0-beta.1)(vite@5.2.8)
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.4.3)(vue@3.4.21)
@@ -3543,8 +3543,8 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /nimiq-css@0.0.59(typescript@5.4.3)(unocss@0.59.0-beta.1)(vite@5.2.8):
-    resolution: {integrity: sha512-VA1oAqoGrA36X4e8GeacaNUmQLm8QUt0+ZzFYNHw41vfTZLVEalVvMyo8pBUew1NA8iBM29FpgPIwBqQOjYMxw==}
+  /nimiq-css@0.0.85(typescript@5.4.3)(unocss@0.59.0-beta.1)(vite@5.2.8):
+    resolution: {integrity: sha512-37J77FFhDqWYB1HdR9NHeE/IeR+z/v2LCLqtYtw6rU97UWdoXqfyQyhm1iehkI9XXqws6vlE1Pkmv1zMIeuHNg==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: ^5.0.0

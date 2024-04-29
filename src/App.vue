@@ -1,14 +1,39 @@
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
+import { createReusableTemplate, useDark, useToggle } from '@vueuse/core'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 
-const timelines = [
+const firstYear = 2017
+const firstMonth = 1
+
+interface Block {
+  icon?: string
+  name: string
+  year: number
+  month: number
+  withBg?: boolean
+  row?: number
+}
+
+interface Layer {
+  name: string
+  bg: string
+  text: string
+  icon: string
+  blocksBg: string
+  blocksText: string
+  blocks: {
+    name: string
+    items: Block[] | Block[][]
+  }[]
+}
+
+const layers: Layer[] = [
   {
     name: 'Network Layer',
     bg: 'bg-blue/10',
-    text: 'text-[#04639A]',
+    text: 'text-blue-1100',
     icon: 'i-nimiq:icons-lg-network',
     blocksBg: 'bg-blue',
     blocksText: 'text-neutral-0',
@@ -19,44 +44,113 @@ const timelines = [
           {
             icon: 'i-custom:js',
             name: 'First Blockchain in JS',
-            year: 2017,
-            quarter: 1,
+            year: firstYear,
+            month: firstMonth
           },
           {
             icon: 'i-nimiq:mining',
             name: 'Browser mining',
             year: 2018,
-            quarter: 3,
+            month: 8,
           },
           {
             icon: 'i-nimiq:leaf-2',
             name: 'Albatross PoS design',
             year: 2019,
-            quarter: 3,
+            month: 7,
           },
           {
-            icon: '',
+            icon: 'i-nimiq:divergence',
             name: 'Fiat-crypto HTLCs ',
             year: 2020,
-            quarter: 4,
+            month: 11,
           },
+          {
+            icon: 'i-nimiq:eyeslash',
+            name: 'ZKP system',
+            year: 2022,
+            month: 1
+          },
+          {
+            icon: 'i-nimiq:locked-lock',
+            name: 'Passkeys',
+            year: 2024,
+            month: 2
+          }
         ],
       },
       {
         name: 'Blockchain',
         items: [
           {
-            icon: 'i-custom:js',
+            icon: 'i-nimiq:pacifier',
             name: 'First prototype',
+            withBg: true,
             year: 2017,
-            quarter: 2,
+            month: 4,
           },
           {
-            icon: '',
+            icon: 'i-nimiq:tools',
             name: 'Development PoW',
             year: 2018,
-            quarter: 1,
+            month: 2,
           },
+          {
+            icon: 'i-nimiq:moon',
+            name: 'Luna Testnet',
+            year: 2018,
+            month: 4,
+            row: 2,
+          },
+          {
+            name: '<b>1.0</b> Nimiq PoW',
+            year: 2019,
+            month: 2,
+          },
+          {
+            icon: 'i-nimiq:mining',
+            name: 'Browser mining',
+            year: 2019,
+            month: 9,
+          },
+          {
+            icon: 'i-custom:rust',
+            name: 'Rust implementation',
+            year: 2019,
+            month: 11,
+            row: 2
+          },
+          {
+            icon: 'i-nimiq:tools',
+            name: 'Development PoS',
+            year: 2020,
+            month: 8
+          },
+          {
+            icon: 'i-custom:wasm',
+            name: 'WASM support',
+            year: 2021,
+            month: 7
+          },
+          {
+            icon: 'i-nimiq:handshake',
+            name: 'Sync protocol redesign',
+            year: 2022,
+            month: 2,
+            row: 2
+          },
+          {
+            icon: 'i-nimiq:leaf-2',
+            name: 'PoS Testnet',
+            year: 2022,
+            month: 6
+          },
+          {
+            name: '<b>2.0</b> Nimiq PoS',
+            year: 2024,
+            month: 7,
+            withBg: true
+          }
         ],
       },
       {
@@ -66,17 +160,155 @@ const timelines = [
             icon: 'i-nimiq:logos-nimiq-mono',
             name: 'OASIS',
             year: 2021,
-            quarter: 1,
+            month: 1,
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    name: 'App Layer',
+    bg: 'bg-gold/10',
+    text: 'text-gold-1100',
+    icon: 'i-nimiq:icons-lg-network',
+    blocksBg: 'bg-gold',
+    blocksText: 'text-neutral-0',
+    blocks: [
+      {
+        name: 'Wallet',
+        items: [
+          {
+            icon: 'i-nimiq:logos-nimiq-mono',
+            name: 'Nimiq Wallet 1.0',
+            year: 2019,
+            month: 1,
+          },
+          {
+            icon: 'i-nimiq:logos-nimiq-mono',
+            name: 'Nimiq Wallet 2.0',
+            year: 2020,
+            month: 1,
+          },
+          {
+            icon: 'i-nimiq:ledger-2',
+            name: 'Ledger integration',
+            year: 2020,
+            month: 9,
+            row: 3
+          },
+          {
+            icon: 'i-nimiq:logos-btc-mono',
+            name: 'BTC Integration',
+            year: 2021,
+            month: 4,
+          },
+          {
+            icon: 'i-nimiq:logos-usdc-mono',
+            name: 'USDC Integration',
+            year: 2021,
+            month: 4,
+            row: 2,
+          },
+          {
+            icon: 'i-nimiq:icons-lg-btc-nim-swap',
+            name: 'Crypto swaps',
+            year: 2022,
+            month: 6
+          },
+          {
+            icon: 'i-nimiq:icons-lg-usdc-nim-swap',
+            name: 'Crypto/fiat swaps',
+            year: 2022,
+            month: 12,
+            row: 2
+          },
+          {
+            icon: 'i-nimiq:leaf-3',
+            name: 'Pre-Staking',
+            year: 2024,
+            month: 5
+          }
+        ],
+      },
+      {
+        name: 'Merchants App',
+        items: [
+          [
+            {
+              icon: 'i-nimiq:logos-nimiq-horizontal-mono w-68 h-16',
+              name: 'Checkout',
+              year: 2020,
+              month: 1
+            }
+          ],
+          [
+            {
+              icon: 'i-nimiq:logos-nimiq-horizontal-mono w-68 h-16',
+              name: 'Checkout',
+              year: 2021,
+              month: 1
+            },
+            {
+              icon: 'i-nimiq:logos-cpl=tag-mono',
+              name: 'Checkout',
+              year: 2022,
+              month: 1
+            }
+          ]
+        ]
+      },
+      {
+        name: 'Exchange Service',
+        items: [
+          [
+            {
+              icon: 'i-nimiq:logos-sss',
+              name: 'SuperSimpleSwap',
+              year: 2020,
+              month: 11,
+            },
+          ],
+          [
+            {
+              name: 'Paused for regulatory reasons',
+              year: 2024,
+              month: 5,
+            },
+          ]
+        ],
+      },
+      {
+        name: 'Payment App',
+        items: [
+          {
+            icon: 'i-nimiq:logos-nimiq-mono',
+            name: 'Pay',
+            year: 2024,
+            month: 5,
           },
         ],
       },
     ],
   },
 ]
+
+function getStartOfBlock(block: Block[] | Block[][]) {
+  if (Array.isArray(block)) {
+    // @ts-ignore
+    return getStartOfBlock((block as Block[])[0])
+  }
+  console.log({ block })
+  // @ts-ignore
+  return { '--first-month': block.month, '--first-year': block.year }
+}
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate<Block>()
 </script>
 
 <template>
-  <header flex="~ gap-32 col lg:row items-center justify between" max-h-screen px-32 py-40 mx-auto w-full bg-neutral-100>
+  <header flex="~ gap-32 col lg:row items-center justify between" max-h-screen px-32 py-40 mx-auto w-full
+    bg-neutral-100>
     <div i-nimiq:logos-nimiq-vertical dark:i-nimiq:logos-nimiq-white-vertical text-64 />
 
     <div flex="~ gap-32 wrap items-center flex-1 justify-center" w-full>
@@ -90,25 +322,40 @@ const timelines = [
     <div w-64 />
   </header>
 
-  <main bg-neutral-100 h-full>
-    <ul>
-      <li v-for="timeline in timelines" :key="timeline.name" :class="timeline.bg" relative col-start-2 col-end--1 rounded-8 class="grid-timelines" of-auto p-24 pr-0 ml-96>
-        <div grid="~ cols-[subgrid] rows-1" style="grid-column: 1 / -1">
-          <div v-for="year in Array.from({ length: 8 }, (_, i) => i + 2017)" :key="year" text-14 col-span-4>
-            {{ year }}
-          </div>
-        </div>
-        <div
-          v-for="(block, i) in timeline.blocks" :key="block.name" flex="~ col gap-2" mt-16 :style="{
-            '--block-quarter': block.items[0].quarter, '--block-year': block.items[0].year,
-          }"
-        >
-          <span label text-blue text-10>{{ block.name }}</span>
-          <div rounded-l-6 p-16 :class="`${timeline.blocksBg} ${timeline.blocksText}`" flex="~ gap-12 items-center" :style="{ '--quarter': block.items[0].quarter, '--year': block.items[0].year }" class="block-grid">
-            <div v-for="item in block.items" :key="item.name" :style="{ '--quarter': item.quarter, '--year': item.year }" flex="~ gap-8 items-center" text-14>
-              <div :class="item.icon" text="12 op-80" />
-              {{ item.name }}
-            </div>
+
+
+  <main bg-neutral-100 of-x-auto min-h-screen>
+    <ul flex="~ col gap-16" ml-96 w-max>
+      <li v-for="layer in layers" :key="layer.name" :class="layer.bg" p-24 pr-0 flex="~ col justify-end" relative
+        rounded-6 w-max self-end>
+        <div v-for="block in layer.blocks" :key="block.name" mt-24 first:mt-0 flex="~ justify-end">
+          <div relative pt-12>
+            <span label text-10 grid-row-span-full block absolute left-0 top-0 :class="layer.text">
+              {{ block.name }}
+            </span>
+            <DefineTemplate v-slot="{ name, month, year, icon, withBg, row }">
+              <div flex="~ gap-8 items-center" w-max
+                :class="{ 'px-8 py-4 rounded-6 bg-[hsla(0,0%,100%,0.25)]': withBg }"
+                :style="{ '--year': year, '--month': month, 'grid-row': row || 1 }">
+                <div v-if="icon" :class="icon" shrink-0 text="14" op-90 />
+                <span whitespace-nowrap text-16 :class="{ 'lh-none': !withBg }" v-html="name" />
+              </div>
+            </DefineTemplate>
+
+            <template v-if="Array.isArray(block.items[0])">
+              <div flex="~ gap-8">
+                <div v-for="(subblock, index) in block.items as Block[][]" :key="index"
+                  :style="getStartOfBlock(subblock)" :class="[layer.blocksBg, layer.blocksText]" rounded-6 last:rounded-r-0 p-16 class="layer">
+                  <ReuseTemplate v-for="item in subblock" :key="item.name" v-bind="item" />
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <div rounded-l-6 p-16 class="layer" :style="getStartOfBlock(block.items)"
+                :class="[layer.blocksBg, layer.blocksText]">
+                <ReuseTemplate v-for="item in block.items as Block[]" :key="item.name" v-bind="item" />
+              </div>
+            </template>
           </div>
         </div>
       </li>
@@ -118,52 +365,24 @@ const timelines = [
 
 <style>
 :root {
-  --first-year: 2017;
   --current-year: 2024;
-  --year-columns: calc(var(--current-year) - var(--first-year) + 1);
-  --year-columns-width: 221px;
-  --quarter-columns: 4;
-  --quarter-columns-width: calc(
-    var(--year-columns-width) / var(--quarter-columns)
-  );
+  --current-month: 5;
+
+  /* We leave a gap of one year to "see" in the future */
+  --last-displayed-year: calc(var(--current-year) + 1);
+
+  --columns-width: 19px;
 }
 
-.grid-timelines {
-  --cols: calc(var(--year-columns) * var(--quarter-columns));
+.layer {
+  --columns: calc((var(--last-displayed-year) - var(--first-year)) * 12 + (var(--current-month) - var(--first-month) + 1));
   display: grid;
-  grid-template-columns: 164px repeat(var(--cols), var(--quarter-columns-width));
-  gap: 16px;
+  grid-template-columns: repeat(var(--columns), var(--columns-width));
+  row-gap: 12px;
 
-  > * {
-    --column-start: calc(
-      (var(--block-year) - var(--first-year)) * var(--quarter-columns) +
-        var(--block-quarter)
-    );
-    grid-column: calc(var(--column-start)) / -1;
-    white-space: nowrap;
-  }
-}
-
-.block-grid {
-  --year-columns: calc((var(--current-year) - var(--year) + 1));
-  --cols: calc(var(--year-columns) * var(--quarter-columns));
-  display: grid;
-  grid-template-columns: 164px repeat(var(--cols), var(--quarter-columns-width));
-  gap: 16px;
-
-  > * {
-    /* --column-start: calc(
-      (
-        (var(--year) - var(--first-year)) * var(--quarter-columns) +
-          var(--quarter) - var(--column-start)
-      )
-    ); */
-    --column-start: calc(
-      ((var(--year) - var(--first-year)) * var(--quarter-columns)) +
-        var(--quarter)
-    );
-    grid-column: var(--column-start);
-    white-space: nowrap;
+  >div {
+    --column-start: calc((var(--year) - var(--first-year)) * 12 + var(--month) - var(--first-month) + 1);
+    grid-column: var(--column-start) / span 1;
   }
 }
 </style>
